@@ -1,8 +1,8 @@
 const routes = require("express").Router()
-const store = require("../Develop/db/savedNote")
+const savedNote = require("../Develop/db/savedNote")
 
 router.get("./notes", (req,res) => {
-    store.note()
+    savedNote.note()
         .then(notes => {
             res.json(notes)
         })
@@ -10,8 +10,10 @@ router.get("./notes", (req,res) => {
 })
 
 router.post("./notes", (req,res) => {
-    store.newNote(req.body)
+    savedNote.newNote(req.body)
         .then(note => {
             res.json(note)
         })
 })
+
+module.exports = routes
