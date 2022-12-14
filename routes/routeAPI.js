@@ -22,7 +22,7 @@ routes.post('/notes', (req, res) => {
         text,
       };
 
-      readAndAppend(newNote, "./Develop/db/db.json");
+      readAndAppend(newNote, "../db/db.json");
       res.json(`Note added!`);
     } else {
       res.error('Error while adding note');
