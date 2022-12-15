@@ -20,4 +20,4 @@ A simple way to take down and save notes throughout your day!
 - Save your note!
 
 ## Deployed Link
-- 
+- https://serene-bayou-26248.herokuapp.com/
