@@ -1,11 +1,12 @@
-const express = require("express")
+const express = require('express');
 
-const routeAPI = require("./routeAPI")
-const routeHTML = require("./routeHTML")
+const routeAPI = require('./routeAPI');
+const routeHTML = require('./routeHTML');
 
-const app = express()
+const app = express();
 
-app.use('/notes', routeAPI)
-app.use('/notes', routeHTML)
+app.use('/notes', routeAPI);
+app.use('/notes', routeHTML);
 
-module.exports = app
+module.exports = app;
+

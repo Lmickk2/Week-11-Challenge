@@ -1,32 +1,53 @@
-const routes = require("express").Router()
-const savedNote = require("../Develop/db/savedNote")
-const json = require("../Develop/db/db.json")
+const fs = require("fs");
+const express = require("express");
+const {
+  readFromFile,
+  readAndnotesend,
+  writeToFile,
+} = require("../helpers/fsUtils");
 
-routes.get("/notes", (req,res) => {
-    fs.readFile("./Develop/db/db.json", (err,data) => {
-        if(err) throw err;
-        console.log(JSON.parse(data))
-        res.send(data)
-    })
-})
-
-routes.post('/notes', (req, res) => {
-    console.info(`${req.method} adding note!`);
-    console.log(req.body);
-  
-    const { title,text} = req.body;
-  
-    if (req.body) {
-      const newNote = {
-        title,
-        text,
-      };
-
-      readAndAppend(newNote, "../db/db.json");
-      res.json(`Note added!`);
-    } else {
-      res.error('Error while adding note');
-    }
+module.exports = function (notes) {
+  notes.get("/", function (req, res) {
+    fs.readFile("./db/db.json", (err, data) => {
+      if (err) {
+        console.log(err);
+      }
+      notesData = JSON.parse(data);
+      res.send(notesData);
+    });
   });
 
-module.exports = routes
+  notes.get("/api/notes", function (req, res) {
+    fs.readFile("./db/db.json", (err, data) => {
+      if (err) {
+        console.log(err);
+      }
+      notesData = JSON.parse(data);
+      res.send(notesData);
+    });
+  });
+
+  notes.post("/api/notes", function (req, res) {
+    const newNote = req.body;
+
+    fs.readFile("./db/db.json", (err, data) => {
+      if (err) throw err;
+      notesData = JSON.parse(data);
+      notesData.push(newNote);
+      let currentNote = 1;
+      notesData.forEach((note) => {
+        note.id = currentNote;
+        currentNote++;
+        return notesData;
+      });
+      console.log(notesData);
+      createNote = JSON.stringify(notesData);
+      fs.writeFile("./db/db.json", createNote, (err, data) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+    });
+    res.send("Note posted successfully");
+  });
+};
